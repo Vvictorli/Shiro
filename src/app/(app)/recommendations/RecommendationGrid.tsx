@@ -1,6 +1,5 @@
-
-import type {RecommendationItem} from './types';
-import { recommendationTypeLabels  } from './types'
+import type { RecommendationItem } from './types'
+import { recommendationTypeLabels } from './types'
 
 function getHostname(url: string) {
   try {
@@ -28,7 +27,7 @@ export function RecommendationGrid({ items }: { items: RecommendationItem[] }) {
   }
 
   return (
-    <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+    <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       {items.map((item) => (
         <a
           key={item.id}

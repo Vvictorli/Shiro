@@ -52,7 +52,7 @@ export function RecommendationExplorer({
   }, [currentType, deferredQuery, items])
 
   return (
-    <section className="mx-auto mt-8 w-full max-w-[52rem] px-2 lg:mt-12 lg:px-0">
+    <section className="mx-auto mt-8 w-full max-w-5xl px-2 lg:mt-12 lg:px-0 2xl:max-w-6xl">
       <header className="mb-4 md:mb-6">
         <p className="mb-2 text-[11px] uppercase tracking-[0.34em] text-zinc-400 dark:text-zinc-500">
           Collections
@@ -69,10 +69,10 @@ export function RecommendationExplorer({
         <RecommendationTabs
           currentType={currentType}
           onChange={setCurrentType}
-          className="min-w-0 flex-1"
+          className="shrink-0"
         />
 
-        <div className="w-44 shrink-0 md:w-[14.5rem]">
+        <div className="min-w-0 flex-1 md:min-w-72">
           <label className="relative block">
             <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-zinc-400 dark:text-zinc-500">
               <span className="flex size-7 items-center justify-center rounded-full bg-zinc-100/90 dark:bg-zinc-900/90">

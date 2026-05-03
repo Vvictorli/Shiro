@@ -161,10 +161,6 @@ export default async function RootLayout(props: PropsWithChildren) {
           <HydrationEndDetector />
           <AccentColorStyleInjector color={themeConfig.config.color} />
           <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-          <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/@fontsource/lxgw-wenkai@5.2.5/index.css"
-          />
 
           <link
             rel="shortcut icon"

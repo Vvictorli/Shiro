@@ -4,7 +4,7 @@ import { getRecommendations } from './api'
 import { RecommendationExplorer } from './RecommendationExplorer'
 import type { RecommendationType } from './types'
 
-export const revalidate = 21600
+export const revalidate = 60
 
 export default async function RecommendationsPage({
   searchParams,

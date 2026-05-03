@@ -129,7 +129,7 @@ function SectionContent({ section }: { section: MovieWallSection }) {
       <TabPanelHeader count={section.items.length} />
 
       {section.items.length > 0 ? (
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {section.items.map((item) => (
             <MovieEntry key={item.id} item={item} />
           ))}

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { $fetch } from 'ofetch'
 
 import { SimpleIconsThemoviedatabase } from '~/components/icons/platform/TheMovieDB'
-import { NormalContainer } from '~/components/layout/container/Normal'
+import { WiderContainer } from '~/components/layout/container/Wider'
 import { apiClient } from '~/lib/request'
 import { createPosterAssetUrl } from '~/lib/tmdb.mjs'
 
@@ -14,8 +14,8 @@ import {
 } from './filters.mjs'
 import { MoviesTabs } from './MoviesTabs'
 
-export const revalidate = 21600
-const MOVIES_PER_PAGE = 24
+export const revalidate = 60
+const MOVIES_PER_PAGE = 36
 
 type LocalMovieWallItem = {
   title: string
@@ -360,7 +360,7 @@ function FilterLink(props: {
       href={props.href}
       className={[
         'inline-flex items-center rounded-full border transition-colors',
-        props.compact ? 'px-3 py-1.5 text-xs' : 'px-3.5 py-2 text-sm',
+        props.compact ? 'px-3 py-1.5 text-xs' : 'px-5 py-2 text-sm',
         props.selected
           ? 'border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
           : 'border-zinc-200 bg-white/85 text-zinc-600 hover:border-zinc-300 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-900/70 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:text-zinc-50',
@@ -382,7 +382,7 @@ function MoviesFilters(props: { state: MoviesSearchState }) {
             <p className="mb-3 text-xs uppercase tracking-[0.24em] text-zinc-400 dark:text-zinc-500">
               类型
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               {TYPE_FILTER_OPTIONS.map((option) => (
                 <FilterLink
                   key={option.value}
@@ -563,7 +563,7 @@ export default async function Page({
   ]
 
   return (
-    <NormalContainer>
+    <WiderContainer>
       <header className="mb-4 md:mb-6">
         <div className="mb-2 flex items-center gap-2 text-xs uppercase tracking-[0.32em] text-zinc-500 dark:text-zinc-400">
           <SimpleIconsThemoviedatabase className="size-4 text-[#0D243F] dark:text-[#5CB7D2]" />
@@ -595,6 +595,6 @@ export default async function Page({
           </div>
         )}
       </main>
-    </NormalContainer>
+    </WiderContainer>
   )
 }
