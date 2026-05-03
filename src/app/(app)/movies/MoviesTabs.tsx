@@ -31,16 +31,29 @@ function MovieEntry({ item }: { item: MovieWallCard }) {
       : item.type
         ? (TYPE_LABELS[item.type as keyof typeof TYPE_LABELS] ?? '未分类')
         : null
-
   return (
     <a
       href={item.href}
       target="_blank"
       rel="noreferrer"
+      title={[
+        item.title,
+        item.originalTitle !== item.title ? item.originalTitle : '',
+        item.year ? `${item.year}${typeLabel ? ` / ${typeLabel}` : ''}` : '',
+        typeof item.doubanRating === 'number'
+          ? `豆瓣 ${item.doubanRating.toFixed(1)}`
+          : '',
+        typeof item.personalRating === 'number'
+          ? `自评 ${item.personalRating.toFixed(0)}/5`
+          : '',
+        item.genres.join(' '),
+      ]
+        .filter(Boolean)
+        .join('\n')}
       className="group block rounded-[24px] border border-zinc-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.72))] p-4 shadow-[0_24px_70px_-46px_rgba(15,23,42,0.2)] transition duration-300 hover:-translate-y-0.5 hover:border-zinc-300 dark:border-zinc-800/90 dark:bg-[linear-gradient(180deg,rgba(22,26,35,0.92),rgba(18,22,30,0.8))] dark:hover:border-zinc-700"
     >
-      <article className="grid grid-cols-[104px_minmax(0,1fr)] gap-4 md:grid-cols-[112px_minmax(0,1fr)] md:gap-5">
-        <div className="relative h-[156px] w-[104px] self-start overflow-hidden rounded-[18px] bg-zinc-100 shadow-sm dark:bg-zinc-800 md:h-[168px] md:w-[112px]">
+      <article className="grid grid-cols-[104px_minmax(0,1fr)] gap-4 md:grid-cols-[112px_minmax(0,1fr)] md:gap-5 xl:grid-cols-[96px_minmax(0,1fr)] xl:gap-4 2xl:grid-cols-[104px_minmax(0,1fr)]">
+        <div className="relative h-[156px] w-[104px] self-start overflow-hidden rounded-[18px] bg-zinc-100 shadow-sm dark:bg-zinc-800 md:h-[168px] md:w-[112px] xl:h-[144px] xl:w-[96px] 2xl:h-[156px] 2xl:w-[104px]">
           {item.poster ? (
             <img
               src={item.poster}
@@ -57,12 +70,18 @@ function MovieEntry({ item }: { item: MovieWallCard }) {
         <div className="min-w-0">
           <div className="min-w-0 space-y-3">
             <div className="min-w-0">
-              <h3 className="break-keep text-[20px] font-medium leading-[1.15] tracking-tight text-zinc-950 dark:text-zinc-50 md:text-[21px]">
+              <h3
+                title={item.title}
+                className="truncate text-[20px] font-medium leading-[1.15] tracking-tight text-zinc-950 dark:text-zinc-50 md:text-[21px]"
+              >
                 {item.title}
               </h3>
               <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-zinc-700/75 dark:text-zinc-300/70">
                 {item.originalTitle !== item.title && (
-                  <span className="max-w-[18ch] truncate">
+                  <span
+                    title={item.originalTitle}
+                    className="block max-w-full truncate"
+                  >
                     {item.originalTitle}
                   </span>
                 )}
@@ -78,20 +97,20 @@ function MovieEntry({ item }: { item: MovieWallCard }) {
           </div>
 
           <div className="mt-6 space-y-4">
-            <div className="flex flex-wrap items-start gap-2">
+            <div className="flex flex-nowrap items-start gap-1.5 overflow-hidden">
               {typeof item.doubanRating === 'number' && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
+                <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
                   <MingcuteStarHalfFill />
                   豆瓣 {item.doubanRating.toFixed(1)}
                 </span>
               )}
               {typeof item.personalRating === 'number' && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-zinc-900 px-2.5 py-1 text-xs font-medium text-white dark:bg-zinc-100 dark:text-zinc-900">
+                <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-900 px-2 py-1 text-xs font-medium text-white dark:bg-zinc-100 dark:text-zinc-900">
                   自评 {item.personalRating.toFixed(0)}/5
                 </span>
               )}
               {item.rating && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-600 dark:bg-amber-500/10 dark:text-amber-300">
+                <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-amber-50 px-2 py-1 text-xs font-medium text-amber-600 dark:bg-amber-500/10 dark:text-amber-300">
                   <MingcuteStarHalfFill />
                   TMDB {item.rating.toFixed(1)}
                 </span>
@@ -99,11 +118,11 @@ function MovieEntry({ item }: { item: MovieWallCard }) {
             </div>
 
             {item.genres.length > 0 && (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-nowrap gap-1.5 overflow-hidden">
                 {item.genres.map((genre) => (
                   <span
                     key={genre}
-                    className="rounded-full border border-zinc-200/80 bg-zinc-50 px-2.5 py-1 text-xs text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-300"
+                    className="shrink-0 whitespace-nowrap rounded-full border border-zinc-200/80 bg-zinc-50 px-2 py-1 text-xs text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-300"
                   >
                     {genre}
                   </span>
