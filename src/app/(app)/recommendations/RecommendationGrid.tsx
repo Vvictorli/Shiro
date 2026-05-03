@@ -34,13 +34,37 @@ export function RecommendationGrid({ items }: { items: RecommendationItem[] }) {
           href={item.url}
           target="_blank"
           rel="noreferrer"
-          className="bg-white/82 group rounded-[22px] border border-zinc-200/80 p-2.5 shadow-[0_18px_56px_-54px_rgba(15,23,42,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:border-zinc-300/90 hover:shadow-[0_24px_64px_-52px_rgba(15,23,42,0.34)] dark:border-zinc-800/90 dark:bg-zinc-950/55 dark:hover:border-zinc-700/90"
+          className="bg-white/82 rounded-[22px] border border-zinc-200/80 p-2.5 shadow-[0_18px_56px_-54px_rgba(15,23,42,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:border-zinc-300/90 hover:shadow-[0_24px_64px_-52px_rgba(15,23,42,0.34)] dark:border-zinc-800/90 dark:bg-zinc-950/55 dark:hover:border-zinc-700/90"
         >
           {item.cover ? (
-            <div
-              className="mb-3 h-[156px] rounded-[16px] bg-zinc-100 bg-cover bg-center bg-no-repeat md:h-[176px]"
-              style={{ backgroundImage: `url(${item.cover})` }}
-            />
+            <div className="group/cover relative mb-3 flex h-[156px] items-center justify-center overflow-hidden rounded-[16px] border border-zinc-200/60 bg-zinc-50 dark:border-zinc-800/70 dark:bg-zinc-900 md:h-[176px]">
+              <div
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat transition duration-300 ease-out group-hover/cover:scale-[1.02] group-hover/cover:opacity-0 group-focus-visible/cover:opacity-0"
+                style={{ backgroundImage: `url(${item.cover})` }}
+              />
+              <div className="bg-white/96 dark:bg-zinc-950/96 absolute inset-0 grid grid-rows-[auto_minmax(0,1fr)_auto] gap-4 px-7 py-6 text-center opacity-0 transition duration-300 ease-out group-hover/cover:opacity-100 group-focus-visible/cover:opacity-100">
+                <div className="flex min-w-0 justify-center">
+                  <span className="inline-flex max-w-full items-center rounded-[8px] border border-zinc-200/80 px-3 py-1 text-xs leading-none text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
+                    {recommendationTypeLabels[item.type]}
+                  </span>
+                </div>
+                <p className="line-clamp-3 self-center overflow-hidden text-sm leading-7 text-zinc-600 dark:text-zinc-300">
+                  {item.description || '没有写太多说明，但它值得被留在这里。'}
+                </p>
+                {item.tags && item.tags.length > 0 ? (
+                  <div className="flex min-w-0 flex-wrap justify-center gap-1.5 overflow-hidden">
+                    {item.tags.slice(0, 3).map((tag) => (
+                      <span
+                        key={tag}
+                        className="max-w-full truncate rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            </div>
           ) : null}
 
           <div className="mb-2 flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
@@ -57,10 +81,6 @@ export function RecommendationGrid({ items }: { items: RecommendationItem[] }) {
           <div className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
             {item.sourceName || getHostname(item.url)}
           </div>
-
-          <p className="mt-2.5 line-clamp-3 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
-            {item.description || '没有写太多说明，但它值得被留在这里。'}
-          </p>
         </a>
       ))}
     </section>
