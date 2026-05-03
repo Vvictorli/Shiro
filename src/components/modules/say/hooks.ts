@@ -9,7 +9,23 @@ import { SayModalForm } from './SayModalForm'
 
 export const sayQueryKey = ['says']
 
-export const useSayListQuery = () =>
+type SayPage = {
+  data: SayModel[]
+  pagination: {
+    total: number
+    size: number
+    currentPage?: number
+    current_page?: number
+    totalPage?: number
+    total_page?: number
+    hasNextPage?: boolean
+    has_next_page?: boolean
+    hasPrevPage?: boolean
+    has_prev_page?: boolean
+  }
+}
+
+export const useSayListQuery = (initialPage?: SayPage) =>
   useInfiniteQuery({
     queryKey: sayQueryKey,
     queryFn: async ({ pageParam }) => {
@@ -17,9 +33,20 @@ export const useSayListQuery = () =>
       return data
     },
     initialPageParam: 1,
+    ...(initialPage
+      ? {
+          initialData: {
+            pages: [initialPage],
+            pageParams: [1],
+          },
+          staleTime: 60 * 1000,
+        }
+      : {}),
     getNextPageParam: (lastPage) =>
-      lastPage.pagination.hasNextPage
-        ? lastPage.pagination.currentPage + 1
+      (lastPage.pagination.hasNextPage ?? lastPage.pagination.has_next_page)
+        ? (lastPage.pagination.currentPage ??
+            lastPage.pagination.current_page ??
+            1) + 1
         : undefined,
   })
 

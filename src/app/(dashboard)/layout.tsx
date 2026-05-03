@@ -42,6 +42,11 @@ export default async function RootLayout({ children }: PropsWithChildren) {
         <title>Shiro · Light Dashboard | Powered by Mix Space</title>
         <HydrationEndDetector />
         {/* <AccentColorStyleInjector /> */}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@fontsource/lxgw-wenkai@5.2.5/index.css"
+        />
 
         <link
           rel="shortcut icon"

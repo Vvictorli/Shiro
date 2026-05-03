@@ -1,68 +1,10 @@
 'use client'
 
-import clsx from 'clsx'
-import { AnimatePresence, m } from 'motion/react'
-import { useEffect, useRef, useState } from 'react'
-
 export const PostItemHoverOverlay = () => {
-  const [mouseEnter, setMouseEnter] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const $ref = ref.current
-    if (!$ref) return
-    const $parent = $ref.parentElement
-    if (!$parent) return
-    $parent.onfocus = () => {
-      setMouseEnter(true)
-    }
-
-    $parent.onblur = () => {
-      setMouseEnter(false)
-    }
-
-    return () => {
-      $parent.onfocus = null
-      $parent.onblur = null
-    }
-  }, [])
   return (
-    <>
-      <div
-        ref={ref}
-        className="absolute inset-0 z-10"
-        onMouseEnter={() => {
-          setMouseEnter(true)
-        }}
-        onMouseLeave={() => {
-          setMouseEnter(false)
-        }}
-      />
-
-      <AnimatePresence>
-        {mouseEnter && (
-          <m.div
-            layout
-            initial={{
-              opacity: 0.2,
-              scale: 0.95,
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-            }}
-            exit={{
-              opacity: 0,
-              scale: 0.95,
-            }}
-            layoutId="post-item-hover-overlay"
-            className={clsx(
-              'absolute z-[-1] rounded-xl',
-              'bg-accent/10 dark:bg-neutral-800',
-              'inset-y-4 -left-4 -right-6',
-            )}
-          />
-        )}
-      </AnimatePresence>
-    </>
+    <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[24px]">
+      <div className="absolute inset-0 rounded-[24px] bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.18),transparent_56%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_56%)]" />
+      <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/75 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:via-white/30" />
+    </div>
   )
 }

@@ -39,6 +39,7 @@ import {
   PostMarkdown,
   PostMarkdownImageRecordProvider,
   PostMetaBarInternal,
+  PostTagRow,
   PostTitle,
   SlugReplacer,
 } from './pageExtra'
@@ -96,7 +97,10 @@ const PostPage = ({ data }: { data: ModelWithLiked<PostModel> }) => {
       <AckRead id={id} type="post" />
       <HeaderMetaInfoSetting />
       <div>
-        <div className="mb-8">
+        <div className="relative mb-10 overflow-hidden rounded-[28px] border border-zinc-200/75 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.96),rgba(248,250,252,0.88)_42%,rgba(244,244,245,0.78)_100%)] px-5 py-7 shadow-[0_38px_100px_-88px_rgba(15,23,42,0.38)] dark:border-zinc-800/85 dark:bg-[radial-gradient(circle_at_top,rgba(39,39,42,0.85),rgba(24,24,27,0.88)_50%,rgba(10,10,12,0.92)_100%)] md:p-10">
+          <div className="mb-4 text-center text-[11px] uppercase tracking-[0.3em] text-zinc-400 dark:text-zinc-500">
+            {data.category.name}
+          </div>
           <PostTitle />
           <GoToAdminEditingButton
             id={id!}
@@ -104,7 +108,8 @@ const PostPage = ({ data }: { data: ModelWithLiked<PostModel> }) => {
             className="absolute -top-6 right-0"
           />
 
-          <PostMetaBarInternal className="mb-8 justify-center" />
+          <PostMetaBarInternal className="mt-4 justify-center text-zinc-500 dark:text-zinc-400" />
+          <PostTagRow />
 
           <SummarySwitcher data={data} />
 
@@ -117,7 +122,7 @@ const PostPage = ({ data }: { data: ModelWithLiked<PostModel> }) => {
 
           <PostMarkdownImageRecordProvider>
             <MarkdownSelection>
-              <article className="prose">
+              <article className="article-prose prose relative mx-auto max-w-[46rem] px-1 md:px-0">
                 <div className="sr-only">
                   <PostTitle />
                 </div>

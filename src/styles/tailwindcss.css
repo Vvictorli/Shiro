@@ -25,15 +25,68 @@ html body {
 
 .prose {
   max-width: 100% !important;
-  font-size: 1.1rem;
+  font-size: 1.08rem;
+  color: rgb(39 39 42 / 0.92);
+  line-height: 1.95;
 
   p {
     @apply break-words;
   }
 
   figure img {
-    @apply mb-0 mt-0;
+    @apply mb-0 mt-0 rounded-[24px];
   }
+}
+
+.dark .prose {
+  color: rgb(228 228 231 / 0.9);
+}
+
+.article-prose p {
+  margin-top: 1.35rem;
+  margin-bottom: 1.35rem;
+}
+
+.article-prose h2,
+.article-prose h3,
+.article-prose h4 {
+  margin-top: 3.5rem;
+  margin-bottom: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.article-prose h2 {
+  font-size: 1.9rem;
+  line-height: 1.28;
+}
+
+.article-prose h3 {
+  font-size: 1.5rem;
+  line-height: 1.35;
+}
+
+.article-prose ul,
+.article-prose ol,
+.article-prose blockquote,
+.article-prose pre,
+.article-prose figure {
+  margin-top: 1.85rem;
+  margin-bottom: 1.85rem;
+}
+
+.article-prose img {
+  box-shadow: 0 30px 90px -65px rgba(15, 23, 42, 0.55);
+}
+
+.article-prose hr {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  border-color: rgb(228 228 231);
+}
+
+.dark .article-prose hr {
+  border-color: rgb(63 63 70);
 }
 
 *:focus {

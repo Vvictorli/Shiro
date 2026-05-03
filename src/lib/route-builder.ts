@@ -24,6 +24,7 @@ export const enum Routes {
   Says = '/says',
   Friends = '/friends',
   Thinking = '/thinking',
+  Recommendations = '/recommendations',
 
   PageDeletd = '/common/deleted',
 }
@@ -85,7 +86,11 @@ export type RouteParams<T extends Routes> = T extends Routes.Home
                     ? OnlySlug
                     : T extends Routes.Project
                       ? OnlyId
-                      : {}
+                      : T extends Routes.Recommendations
+                        ? Pagination & {
+                            type?: 'all' | 'site' | 'article' | 'app'
+                          }
+                        : {}
 
 export function routeBuilder<T extends Routes>(
   route: T,
@@ -131,6 +136,21 @@ export function routeBuilder<T extends Routes>(
     case Routes.Project: {
       const p = params as OnlyId
       href += p.id
+      break
+    }
+    case Routes.Recommendations: {
+      const p = params as Pagination & {
+        type?: 'all' | 'site' | 'article' | 'app'
+      }
+      const query = new URLSearchParams(
+        Object.entries(p as Record<string, string>)
+          .filter(
+            ([, value]) =>
+              value !== undefined && value !== null && value !== 'all',
+          )
+          .map(([key, value]) => [key, String(value)]),
+      )
+      href += query.toString() ? `?${query.toString()}` : ''
       break
     }
   }

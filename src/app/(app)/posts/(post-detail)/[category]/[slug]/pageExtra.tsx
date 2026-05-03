@@ -17,7 +17,7 @@ export const PostTitle = () => {
   const title = useCurrentPostDataSelector((data) => data?.title)!
 
   return (
-    <h1 className="mb-8 text-balance text-center text-4xl font-bold leading-tight">
+    <h1 className="mx-auto max-w-4xl text-balance text-center font-serif text-[2.7rem] font-semibold leading-[1.16] tracking-[-0.02em] text-zinc-950 dark:text-zinc-50 md:text-[3.5rem]">
       {title}
     </h1>
   )
@@ -94,14 +94,35 @@ export const PostMetaBarInternal: Component = ({ className }) => {
   return <PostMetaBar meta={meta} className={className} />
 }
 
+export const PostTagRow = () => {
+  const tags = useCurrentPostDataSelector((data) => data?.tags || noopArr)
+
+  if (tags.length === 0) return null
+
+  return (
+    <div className="mt-4 flex flex-wrap justify-center gap-2">
+      {tags.map((tag) => (
+        <span
+          key={tag}
+          className="rounded-full border border-zinc-200/80 px-3 py-1 text-[12px] text-zinc-600 dark:border-zinc-800/80 dark:text-zinc-300"
+        >
+          {tag}
+        </span>
+      ))}
+    </div>
+  )
+}
+
 export const SlugReplacer = ({ to }: { to: string }) => {
   const router = useRouter()
   const onceRef = useRef(false)
 
-  if (!onceRef.current) {
+  useEffect(() => {
+    if (onceRef.current) return
+
     onceRef.current = true
     router.replace(to)
-  }
+  }, [router, to])
 
   return null
 }

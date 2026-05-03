@@ -43,9 +43,16 @@ import { FETCH_SIZE, QUERY_KEY } from './constants'
 export default function Page() {
   return (
     <div>
-      <header className="prose">
-        <h1>思考</h1>
-        <h3>谢谢你听我诉说</h3>
+      <header className="mb-4 md:mb-6">
+        <p className="mb-2 text-[11px] uppercase tracking-[0.34em] text-zinc-400 dark:text-zinc-500">
+          Thinking
+        </p>
+        <h1 className="text-balance font-serif text-[1.95rem] font-semibold leading-[1.08] tracking-[-0.02em] text-zinc-950 dark:text-zinc-50 md:text-[2.4rem]">
+          思考
+        </h1>
+        <p className="mt-3 max-w-md text-sm leading-7 text-zinc-500 dark:text-zinc-400 md:text-[15px]">
+          谢谢你听我诉说。
+        </p>
       </header>
 
       <main className="mt-10">

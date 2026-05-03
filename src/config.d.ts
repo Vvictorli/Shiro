@@ -83,6 +83,17 @@ declare global {
       enable: boolean
       endpoint: string
     }
+    movies?: MoviesModule
+  }
+  export interface MoviesModule {
+    enable?: boolean
+    watched?: MovieCollectionItem[]
+    wishlist?: MovieCollectionItem[]
+  }
+  export interface MovieCollectionItem {
+    id: string
+    note?: string
+    personalRating?: number
   }
   export interface Donate {
     enable: boolean

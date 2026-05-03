@@ -1,93 +1,39 @@
 'use client'
 
+import type { PostModel } from '@mx-space/api-client'
 import { m } from 'motion/react'
-import Link from 'next/link'
-import * as React from 'react'
 
-import { Divider } from '~/components/ui/divider'
-import { RelativeTime } from '~/components/ui/relative-time'
+import { PostItem } from '~/components/modules/post/PostItem'
 import { softBouncePreset } from '~/constants/spring'
-import { routeBuilder, Routes } from '~/lib/route-builder'
 
-import { useHomeQueryData } from '../query'
-
-export const ActivityPostList = () => {
-  const { notes, posts } = useHomeQueryData()
+export const ActivityPostList = ({ posts }: { posts: PostModel[] }) => {
   return (
     <m.section
       initial={{ opacity: 0.0001, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={softBouncePreset}
-      className="mt-8 flex flex-col gap-4 lg:mt-0"
+      className="mx-auto mt-6 w-full max-w-[52rem] px-4 lg:mt-0"
       viewport={{ once: true }}
     >
-      <h2 className="text-2xl font-medium leading-loose">最近更新的文稿</h2>
-      <ul className="shiro-timeline mt-4">
-        {posts.map((post) => {
-          return (
-            <li key={post.id} className="flex min-w-0 justify-between">
-              <Link
-                prefetch
-                className="min-w-0 shrink truncate"
-                href={routeBuilder(Routes.Post, {
-                  category: post.category.slug,
-                  slug: post.slug,
-                })}
-              >
-                {post.title}
-              </Link>
-
-              <span className="ml-2 shrink-0 self-end text-xs opacity-70">
-                <RelativeTime
-                  date={post.created}
-                  displayAbsoluteTimeAfterDay={180}
-                />
-              </span>
-            </li>
-          )
-        })}
-      </ul>
-
-      <Link
-        className="flex items-center justify-end opacity-70 duration-200 hover:text-accent"
-        href={routeBuilder(Routes.Posts, {})}
-      >
-        <i className="i-mingcute-arrow-right-circle-line" />
-        <span className="ml-2">还有更多</span>
-      </Link>
-
-      <Divider />
-      <h2 className="text-2xl font-medium leading-loose">最近更新的手记</h2>
-      <ul className="shiro-timeline mt-4">
-        {notes.map((note, i) => {
-          return (
-            <li key={note.id} className="flex min-w-0 justify-between">
-              <Link
-                className="min-w-0 shrink truncate"
-                href={routeBuilder(Routes.Note, {
-                  id: note.nid,
-                })}
-              >
-                {note.title}
-              </Link>
-
-              <span className="ml-2 shrink-0 self-end text-xs opacity-70">
-                <RelativeTime
-                  date={note.created}
-                  displayAbsoluteTimeAfterDay={180}
-                />
-              </span>
-            </li>
-          )
-        })}
-      </ul>
-      <Link
-        className="flex items-center justify-end opacity-70 duration-200 hover:text-accent"
-        href={routeBuilder(Routes.Timelime, { type: 'note' })}
-      >
-        <i className="i-mingcute-arrow-right-circle-line" />
-        <span className="ml-2">还有更多</span>
-      </Link>
+      {posts.length === 0 ? (
+        <div className="rounded-[22px] border border-zinc-200/80 bg-white/70 px-5 py-10 text-sm text-zinc-500 dark:border-zinc-800/90 dark:bg-zinc-900/50 dark:text-zinc-400">
+          暂时还没有可展示的博文。
+        </div>
+      ) : (
+        <div className="rounded-[26px] border border-zinc-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.78))] px-5 shadow-[0_24px_70px_-52px_rgba(15,23,42,0.18)] dark:border-zinc-800/90 dark:bg-[linear-gradient(180deg,rgba(21,24,32,0.92),rgba(18,21,28,0.82))] md:px-8">
+          {posts.map((item, index) => (
+            <m.div
+              key={item.id}
+              initial={{ opacity: 0.0001, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ ...softBouncePreset, delay: index * 0.04 }}
+              viewport={{ once: true, margin: '-10% 0px' }}
+            >
+              <PostItem data={item} variant="list" />
+            </m.div>
+          ))}
+        </div>
+      )}
     </m.section>
   )
 }

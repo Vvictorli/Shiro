@@ -1,11 +1,15 @@
 import type { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
 
-import { WiderContainer } from '~/components/layout/container/Wider'
+import { NormalContainer } from '~/components/layout/container/Normal'
 
 export const metadata: Metadata = {
   title: '一言',
 }
 export default async function Layout(props: PropsWithChildren) {
-  return <WiderContainer>{props.children}</WiderContainer>
+  return (
+    <NormalContainer className="max-w-[52rem]">
+      {props.children}
+    </NormalContainer>
+  )
 }

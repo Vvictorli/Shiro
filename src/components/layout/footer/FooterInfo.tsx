@@ -13,8 +13,28 @@ import { queries } from '~/queries/definition'
 import type { FooterConfig } from './config'
 import { defaultLinkSections } from './config'
 // import { footerConfig } from './config'
-import { GatewayInfo } from './GatewayInfo'
 import { OwnerName } from './OwnerName'
+
+const FOOTER_EMAIL = 'mailto:lhn641205268@gamil.com'
+const FOOTER_GITHUB = 'https://github.com/Vvictorli'
+
+const normalizeFooterSections = (sections: FooterConfig['linkSections']) =>
+  sections.map((section) => ({
+    ...section,
+    links: section.links
+      .filter((link) => link.name !== '监控')
+      .map((link) => {
+        if (link.name === '发邮件') {
+          return { ...link, href: FOOTER_EMAIL, external: true }
+        }
+
+        if (link.name === 'GitHub') {
+          return { ...link, href: FOOTER_GITHUB, external: true }
+        }
+
+        return link
+      }),
+  }))
 
 // const isVercelEnv = !!process.env.NEXT_PUBLIC_VERCEL_ENV
 export const FooterInfo = () => {
@@ -45,10 +65,13 @@ const FooterLinkSection = async () => {
   const footerConfig: FooterConfig = footer || {
     linkSections: defaultLinkSections,
   }
+  const linkSections = normalizeFooterSections(
+    footerConfig.linkSections || defaultLinkSections,
+  )
 
   return (
     <div className="space-x-0 space-y-3 md:space-x-6 md:space-y-0">
-      {footerConfig.linkSections.map((section) => {
+      {linkSections.map((section) => {
         return (
           <div
             className="flex items-center gap-4 md:inline-flex"
@@ -86,13 +109,21 @@ const StyledLink = (
   },
 ) => {
   const { external, ...rest } = props
-  const As = external ? 'a' : Link
+  const isExternal =
+    external || /^https?:\/\//.test(props.href ? String(props.href) : '')
+  const As = isExternal ? 'a' : Link
+  const rel =
+    props.rel ||
+    (props.target === '_blank' || isExternal
+      ? 'noopener noreferrer'
+      : undefined)
 
   return (
     // @ts-ignore
     <As
       className="link-hover link"
-      target={props.external ? '_blank' : props.target}
+      target={isExternal ? '_blank' : props.target}
+      rel={rel}
       {...rest}
     >
       {props.children}
@@ -201,7 +232,7 @@ const FooterBottom = async () => {
           </SubscribeTextButton>
         </span>
         <span className="mt-3 block md:mt-0 md:inline">
-          Stay hungry. Stay foolish.
+          Sunshine on the shoulders, like a free man.
         </span>
       </div>
       <div>
@@ -220,7 +251,6 @@ const FooterBottom = async () => {
         ) : (
           <Divider className="hidden md:inline" />
         )}
-        <GatewayInfo />
         {/* {!!lastVisitor && (
           <>
             <Divider />

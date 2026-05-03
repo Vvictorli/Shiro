@@ -1,28 +1,10 @@
-'use client'
+import { getInitialSays } from './api'
+import { SaysPageClient } from './SaysPageClient'
 
-import { useSayListQuery } from '~/components/modules/say/hooks'
-import { SayMasonry } from '~/components/modules/say/SayMasonry'
-import { NothingFound } from '~/components/modules/shared/NothingFound'
-import { FullPageLoading } from '~/components/ui/loading'
+export const revalidate = 21600
 
-export default function Page() {
-  const { data, isLoading, status } = useSayListQuery()
+export default async function Page() {
+  const initialPage = await getInitialSays().catch(() => {})
 
-  if (isLoading || status === 'pending') {
-    return <FullPageLoading />
-  }
-
-  if (!data || data.pages.length === 0) return <NothingFound />
-
-  return (
-    <div>
-      <header className="prose">
-        <h1>一言</h1>
-      </header>
-
-      <main className="mt-10">
-        <SayMasonry />
-      </main>
-    </div>
-  )
+  return <SaysPageClient initialPage={initialPage} />
 }

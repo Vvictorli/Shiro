@@ -82,6 +82,7 @@ const SearchPanel = () => {
         {panelOpen && (
           <Dialog.Portal>
             <Dialog.Content>
+              <Dialog.Title className="sr-only">站内搜索</Dialog.Title>
               <div className="center fixed inset-0 z-20 flex">
                 <div
                   className="fixed inset-0 z-[-1]"
@@ -120,10 +121,11 @@ const SearchPanelImpl = () => {
     isFetching,
   } = useQuery({
     queryKey: ['search', debouncedKeyword],
+    enabled: !!debouncedKeyword,
     queryFn: ({ queryKey }) => {
       const [, keyword] = queryKey
       if (!keyword) {
-        return
+        return { data: [] }
       }
       return apiClient.search.proxy('algolia').get({
         params: {
@@ -134,7 +136,7 @@ const SearchPanelImpl = () => {
     select: useCallback(
       (data: any) => {
         if (!data?.data) {
-          return
+          return []
         }
 
         const _list: SearchListType[] = data?.data.map((item: any) => {
@@ -167,7 +169,7 @@ const SearchPanelImpl = () => {
         })
         setCurrentSelect(0)
 
-        return _list
+        return _list.filter(Boolean)
       },
       [setCurrentSelect],
     ),

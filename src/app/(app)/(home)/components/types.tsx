@@ -6,6 +6,14 @@ import type {
   RecentRecent,
 } from '@mx-space/api-client'
 
+type RecentSay = {
+  id: string
+  text: string
+  source?: string
+  author?: string
+  created: string
+}
+
 export type ReactActivityType =
   | ({
       bizType: 'comment'
@@ -19,6 +27,9 @@ export type ReactActivityType =
   | ({
       bizType: 'recent'
     } & RecentRecent)
+  | ({
+      bizType: 'say'
+    } & RecentSay)
   | ({
       bizType: 'like'
     } & RecentLike)

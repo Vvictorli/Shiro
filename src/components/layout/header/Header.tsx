@@ -54,8 +54,7 @@ const MemoedHeader = memo(() => {
           <HeaderContent />
           <HeaderMeta />
         </HeaderCenterArea>
-
-        <div className="flex size-full items-center">
+        <div className="flex size-full items-center justify-end gap-2 pr-0 lg:pr-0">
           <UserAuth />
         </div>
       </div>

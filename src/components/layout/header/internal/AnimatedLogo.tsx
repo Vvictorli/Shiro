@@ -22,6 +22,7 @@ const TapableLogo = () => {
 
   const { data: isLiving } = useQuery({
     queryKey: ['live-check'],
+    queryFn: () => Promise.resolve(false),
     enabled: false,
   })
 

@@ -5,7 +5,7 @@ import { forwardRef } from 'react'
 export const HeaderActionButton = forwardRef<
   HTMLDivElement,
   JSX.IntrinsicElements['div']
->(({ children, ...rest }, ref) => (
+>(({ children, className, ...rest }, ref) => (
   <div
     role="button"
     tabIndex={1}
@@ -14,6 +14,7 @@ export const HeaderActionButton = forwardRef<
       'px-3 text-sm ring-1 ring-zinc-900/5 transition dark:ring-white/10 dark:hover:ring-white/20',
 
       'center flex',
+      className,
     )}
     {...rest}
     ref={ref}

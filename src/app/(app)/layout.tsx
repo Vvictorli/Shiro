@@ -14,6 +14,7 @@ import { SearchPanelWithHotKey } from '~/components/modules/shared/SearchFAB'
 import { TocAutoScroll } from '~/components/modules/toc/TocAutoScroll'
 import { PreRenderError } from '~/lib/error-factory'
 import { sansFont, serifFont } from '~/lib/fonts'
+import { hasTmdbCredentials } from '~/lib/tmdb.mjs'
 import { AggregationProvider } from '~/providers/root/aggregation-data-provider'
 import { AppFeatureProvider } from '~/providers/root/app-feature-provider'
 import { ScriptInjectProvider } from '~/providers/root/script-inject-provider'
@@ -151,7 +152,7 @@ export default async function RootLayout(props: PropsWithChildren) {
   const themeConfig = data.theme
 
   return (
-    <AppFeatureProvider tmdb={!!process.env.TMDB_API_KEY}>
+    <AppFeatureProvider tmdb={hasTmdbCredentials(process.env)}>
       <html lang="zh-CN" className="noise themed" suppressHydrationWarning>
         <head>
           <PublicEnvScript />
@@ -159,6 +160,11 @@ export default async function RootLayout(props: PropsWithChildren) {
           <SayHi />
           <HydrationEndDetector />
           <AccentColorStyleInjector color={themeConfig.config.color} />
+          <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+          <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@fontsource/lxgw-wenkai@5.2.5/index.css"
+          />
 
           <link
             rel="shortcut icon"

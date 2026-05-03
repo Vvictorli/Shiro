@@ -8,6 +8,7 @@ import { useMemo } from 'react'
 import RemoveMarkdown from 'remove-markdown'
 
 import {
+  FaSolidComments,
   FaSolidFeatherAlt,
   IcTwotoneSignpost,
   MdiLightbulbOn20,
@@ -144,6 +145,36 @@ export const ActivityCard = ({ activity }: { activity: ReactActivityType }) => {
                 )}
               >
                 {RemoveMarkdown(activity.content)}
+              </div>
+            </div>
+          </div>
+        )
+      }
+      case 'say': {
+        return (
+          <div className="relative flex flex-col justify-center gap-2">
+            <div
+              className={clsx(
+                'absolute left-0 top-1/2 -translate-y-1/4',
+                iconClassName,
+              )}
+            >
+              <FaSolidComments />
+            </div>
+
+            <div className="flex gap-2 pl-8">
+              <img
+                src={siteOwner?.avatar}
+                className="mt-4 hidden size-6 rounded-full lg:inline"
+              />
+              <div
+                className={clsx(
+                  'relative inline-block rounded-xl p-3 text-zinc-800 dark:text-zinc-200',
+                  'rounded-tl-sm bg-zinc-600/5 dark:bg-zinc-500/20',
+                  'max-w-full overflow-auto',
+                )}
+              >
+                {RemoveMarkdown(activity.text)}
               </div>
             </div>
           </div>

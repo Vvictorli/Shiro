@@ -2,19 +2,13 @@ import type { ReactNode } from 'react'
 import { createElement as h } from 'react'
 
 import {
-  FaSolidCircle,
-  FaSolidCircleNotch,
   FaSolidComments,
   FaSolidDotCircle,
-  FaSolidFeatherAlt,
   FaSolidHistory,
-  FaSolidUserFriends,
   IcTwotoneSignpost,
-  IonBook,
-  MdiFlask,
-  MdiLightbulbOn20,
-  RMixPlanet,
 } from '~/components/icons/menu-collection'
+import { SimpleIconsThemoviedatabase } from '~/components/icons/platform/TheMovieDB'
+import { JamTags } from '~/components/icons/tag'
 
 export interface IHeaderMenu {
   title: string
@@ -40,74 +34,43 @@ export const headerMenuConfig: IHeaderMenu[] = [
     icon: h(IcTwotoneSignpost),
   },
   {
-    title: '手记',
-    type: 'Note',
-    path: '/notes',
-    icon: h(FaSolidFeatherAlt),
-    exclude: ['/notes/topics'],
+    title: '说说',
+    icon: h(FaSolidComments),
+    path: '/says',
   },
-
   {
-    title: '思考',
-    icon: h(MdiLightbulbOn20),
-    path: '/thinking',
+    title: '收藏',
+    path: '/recommendations',
+    icon: h('i', {
+      className: 'i-mingcute-compass-3-line flex center',
+    }),
+  },
+  {
+    title: '光影',
+    icon: h(SimpleIconsThemoviedatabase, {
+      className: 'text-[#0D243F] dark:text-[#5CB7D2]',
+    }),
+    path: '/movies',
+  },
+  {
+    title: '相册',
+    path: 'https://albums.vvictor.de/',
+    icon: h('i', {
+      className: 'i-mingcute-camera-line flex center',
+    }),
+  },
+  {
+    title: '标签',
+    path: '/tags',
+    icon: h(JamTags, {
+      className: 'size-[1.05em]',
+    }),
   },
 
   {
     title: '时光',
     icon: h(FaSolidHistory),
     path: '/timeline',
-    subMenu: [
-      {
-        title: '手记',
-        icon: h(FaSolidFeatherAlt),
-        path: '/timeline?type=note',
-      },
-      {
-        title: '文稿',
-        icon: h(IonBook),
-        path: '/timeline?type=post',
-      },
-      {
-        title: '回忆',
-        icon: h(FaSolidCircle),
-        path: '/timeline?memory=1',
-      },
-      {
-        title: '专栏',
-        path: '/notes/topics',
-        icon: h('i', {
-          className: 'i-mingcute-align-bottom-fill flex center',
-        }),
-      },
-    ],
-  },
-
-  {
-    title: '更多',
-    icon: h(FaSolidCircleNotch),
-    path: '#',
-    subMenu: [
-      {
-        title: '项目',
-        icon: h(MdiFlask),
-        path: '/projects',
-      },
-      {
-        title: '一言',
-        path: '/says',
-        icon: h(FaSolidComments),
-      },
-      {
-        title: '友链',
-        icon: h(FaSolidUserFriends),
-        path: '/friends',
-      },
-      {
-        title: '跃迁',
-        icon: h(RMixPlanet),
-        path: 'https://travel.moe/go.html',
-      },
-    ],
+    subMenu: [],
   },
 ]

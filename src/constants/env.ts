@@ -3,7 +3,14 @@ import { env } from 'next-runtime-env'
 import { isClientSide, isDev } from '~/lib/env'
 
 export const API_URL: string = (() => {
-  if (isDev) return env('NEXT_PUBLIC_API_URL') || ''
+  if (isDev) {
+    return (
+      env('NEXT_PUBLIC_API_URL') ||
+      (env('NEXT_PUBLIC_GATEWAY_URL')
+        ? `${env('NEXT_PUBLIC_GATEWAY_URL')}/api/v2`
+        : 'http://localhost:2333/api/v2')
+    )
+  }
 
   if (isClientSide && env('NEXT_PUBLIC_CLIENT_API_URL')) {
     return env('NEXT_PUBLIC_CLIENT_API_URL') || ''

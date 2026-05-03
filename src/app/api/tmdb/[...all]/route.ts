@@ -5,6 +5,7 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import { NextServerResponse } from '~/lib/edge-function.server'
+import { buildTmdbRequestOptions, hasTmdbCredentials } from '~/lib/tmdb.mjs'
 
 export const runtime = 'edge'
 export const revalidate = 86400 // 24 hours
@@ -26,22 +27,15 @@ export const GET = async (req: NextRequest) => {
 
   const searchString = query.toString()
 
-  const url = `https://api.themoviedb.org/3/${pathname.join('/')}${
-    searchString
-      ? `?${searchString}&api_key=${process.env.TMDB_API_KEY}`
-      : `?api_key=${process.env.TMDB_API_KEY}`
-  }`
-
-  const headers = new Headers()
-  headers.set(
-    'User-Agent',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko), Shiro',
-  )
-  headers.set('Authorization', `Bearer ${process.env.TMDB_API_KEY}`)
-
-  if (!process.env.TMDB_API_KEY) {
-    return res.status(500).send('TMDB_API_KEY is not set')
+  if (!hasTmdbCredentials(process.env)) {
+    return res.status(500).send('TMDB credentials are not set')
   }
+
+  const { headers, url } = buildTmdbRequestOptions({
+    pathSegments: pathname,
+    searchParams: Object.fromEntries(query.entries()),
+    env: process.env,
+  })
 
   const response = await fetch(url, {
     headers,

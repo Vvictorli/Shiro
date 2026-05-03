@@ -83,13 +83,8 @@ export default function TimelinePage() {
     note: TimelineType.Note,
   }[type]
 
-  const { data: initialData } = useQuery<TimelineData>({
-    queryKey: ['timeline'],
-    enabled: false,
-  })
   const { data, refetch } = useQuery<TimelineData>({
     queryKey: ['timeline', nextType, year],
-    initialData,
     queryFn: async ({ queryKey }) => {
       const [, nextType, year] = queryKey as [string, TimelineType, string]
       return await apiClient.aggregate
@@ -99,6 +94,7 @@ export default function TimelinePage() {
         })
         .then((res) => res.data)
     },
+    enabled: !!nextType,
   })
 
   useEffect(() => {
